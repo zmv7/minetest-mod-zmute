@@ -6,3 +6,4 @@ Mute mod that you can use with privlockdown mods(like https://gitlab.com/r1bnc/p
 * `/mute <player>` - mute a player
 * `/unmute <player>` - unmute a player
 * `/muted` - show list of muted players
+* All of these commands require `basic_privs` priv to use
