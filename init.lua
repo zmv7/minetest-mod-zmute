@@ -16,7 +16,7 @@ core.register_on_joinplayer(function(player)
     if ismuted == "true" then
         local privs = core.get_player_privs(name)
         privs["shout"] = nil
-        core.after(1,function()
+        core.after(0.1,function()
             core.set_player_privs(name,privs)
             core.chat_send_player(name,core.colorize("#F00","You have been muted. Вы заглушены."))
         end)
