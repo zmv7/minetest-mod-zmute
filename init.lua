@@ -1,18 +1,18 @@
-local muted = core.get_mod_storage()
+local s = core.get_mod_storage()
 core.register_on_priv_revoke(function(name,revoker,priv)
     if priv == "shout" then
-        muted:set_string(name,"true")
+        s:set_string(name,"true")
     end
 end)
 core.register_on_priv_grant(function(name,granter,priv)
     if priv == "shout" then
-        muted:set_string(name,"")
+        s:set_string(name,"")
     end
 end)
 core.register_on_joinplayer(function(player)
     local name = player:get_player_name()
     if not name then return end
-    local ismuted = muted:get_string(name)
+    local ismuted = s:get_string(name)
     if ismuted == "true" then
         local privs = core.get_player_privs(name)
         privs["shout"] = nil
@@ -28,7 +28,7 @@ core.register_chatcommand("mute",{
     params = "<name>",
     func = function(name,param)
         if param == "" then param = name end
-        muted:set_string(param,"true")
+        s:set_string(param,"true")
         local player = core.get_player_by_name(param)
         if player then
             local pname = player:get_player_name()
@@ -47,7 +47,7 @@ core.register_chatcommand("unmute",{
     params = "<name>",
     func = function(name,param)
         if param == "" then param = name end
-        muted:set_string(param,"")
+        s:set_string(param,"")
         local player = core.get_player_by_name(param)
         if player then
             local pname = player:get_player_name()
@@ -64,10 +64,10 @@ core.register_chatcommand("muted",{
     description = "Show list of muted players",
     privs = {basic_privs=true},
     func = function(name,param)
-        local test = muted:to_table().fields
-        local msg = "Muted: "
-        for nick,val in pairs(test) do
-            msg = msg..nick..", "
+        local out = {}
+        local tabl = s:to_table().fields
+        for nick,val in pairs(tabl) do
+            table.insert(out,nick)
         end
-        return true, msg
+        return true, "Muted: "..table.concat(out,", ")
 end})
