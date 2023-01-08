@@ -94,6 +94,7 @@ core.register_chatcommand("muted",{
 		if param == "purge" then
 			return true, "Mutelist purged"
 		else
+			table.sort(out)
 			return true, "Muted: "..table.concat(out,", ")
 		end
 end})
